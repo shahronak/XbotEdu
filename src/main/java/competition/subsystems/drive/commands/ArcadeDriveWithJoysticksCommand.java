@@ -15,6 +15,7 @@ public class ArcadeDriveWithJoysticksCommand extends BaseCommand {
     public ArcadeDriveWithJoysticksCommand(DriveSubsystem driveSubsystem, OperatorInterface oi) {
         this.operatorInterface = oi;
         this.drive = driveSubsystem;
+        this.addRequirements(drive);
     }
 
     @Override
@@ -24,6 +25,10 @@ public class ArcadeDriveWithJoysticksCommand extends BaseCommand {
 
     @Override
     public void execute() {
+        double yAxis = operatorInterface.gamepad.getLeftVector().y;
+        double xAxis = operatorInterface.gamepad.getLeftVector().x;
+
+        drive.arcadeDrive(-xAxis, yAxis);
     }
 
 }

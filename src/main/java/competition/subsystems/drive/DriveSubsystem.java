@@ -58,6 +58,36 @@ public class DriveSubsystem extends BaseDriveSubsystem {
         }
 
     }
+
+    public void arcadeDrive(double rotateAxis, double driveAxis) {
+        // Used algorithm from https://xiaoxiae.github.io/Robotics-Simplified-Website/drivetrain-control/arcade-drive/
+        // Uses on joystick to drive and turn the robot
+
+        double maximum = Math.max(Math.abs(driveAxis), Math.abs(rotateAxis));
+        double total = driveAxis + rotateAxis;
+        double difference = driveAxis - rotateAxis;
+
+        if (driveAxis >= 0) {
+            if (rotateAxis >= 0) {
+                frontLeft.simpleSet(maximum);
+                frontRight.simpleSet(difference);
+            }
+            else {
+                frontLeft.simpleSet(total);
+                frontRight.simpleSet(maximum);
+            }
+        }
+        else {
+            if (rotateAxis >= 0) {
+                frontLeft.simpleSet(total);
+                frontRight.simpleSet(-1*maximum);
+            }
+            else {
+                frontLeft.simpleSet(-1*maximum);
+                frontRight.simpleSet(difference);
+            }
+        }
+    }
     
     @Override
     public void periodic() {
